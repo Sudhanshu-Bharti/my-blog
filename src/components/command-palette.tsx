@@ -118,7 +118,7 @@ export function CommandPalette() {
     {
       id: "source",
       name: "View Source Code",
-      url: "https://github.com/sudhanshu-bharti/my-blogs",
+      url: "https://github.com/sudhanshu-bharti/my-blog",
     },
     { id: "contact", name: "Contact Me", url: "mailto:itsmeshubbb@gmail.com" },
   ]
