@@ -75,19 +75,25 @@ export function TreemapSkills({ categories }: { categories: SkillCategory[] }) {
       iconUrl: string
     }
   >()
-
   categories.forEach((category) => {
     const categoryWeight = categoryWeights[category.name] || 1
 
     category.skills.forEach((skill) => {
-      const skillWeight = skillWeights[skill] || 1
+      // Handle possible null/undefined values
+      const safeSkill = skill || ""
+      const skillWeight = skillWeights[safeSkill] || 1
       const size = Math.floor(
         skillWeight * categoryWeight * 100 + Math.random() * 50
       )
 
+      // Safely convert skill to string to prevent toLowerCase errors
+      const formattedSkill =
+        typeof safeSkill === "string" ? safeSkill : String(safeSkill)
       const iconUrl =
-        customIcons[skill] ||
-        `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.toLowerCase()}/${skill.toLowerCase()}-original.svg`
+        customIcons[formattedSkill] ||
+        (formattedSkill
+          ? `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${formattedSkill.toLowerCase()}/${formattedSkill.toLowerCase()}-original.svg`
+          : "")
 
       if (skillMap.has(skill)) {
         const existing = skillMap.get(skill)!
@@ -280,7 +286,9 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
                     {item.allCategories && item.allCategories.length > 1
                       ? `${item.allCategories.length} STACKS`
                       : (
-                          item.allCategories?.[0] || item.category
+                          item.allCategories?.[0] ||
+                          item.category ||
+                          ""
                         ).toUpperCase()}
                   </div>
                 )}

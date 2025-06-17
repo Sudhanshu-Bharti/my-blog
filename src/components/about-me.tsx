@@ -26,7 +26,7 @@ export function AboutMe() {
         "Redux",
         "Zustand",
         "Shadcn UI",
-      ],
+      ].filter(Boolean), // Filter out any null values
     },
     {
       name: "Backend",
@@ -42,7 +42,7 @@ export function AboutMe() {
         "Prisma",
         "Drizzle ORM",
         "Redis",
-      ],
+      ].filter(Boolean),
     },
     {
       name: "Database",
@@ -55,13 +55,13 @@ export function AboutMe() {
         "Prisma",
         "Drizzle ORM",
         "Redis",
-      ],
+      ].filter(Boolean),
     },
     {
       name: "Design",
       icon: <PenTool className="w-5 h-5" />,
       color: "from-pink-500/10 to-rose-500/10",
-      skills: ["Figma", "UI/UX"],
+      skills: ["Figma", "UI/UX"].filter(Boolean),
     },
     {
       name: "Languages",
@@ -75,7 +75,7 @@ export function AboutMe() {
         "Cplusplus",
         "mysql",
         "Java",
-      ],
+      ].filter(Boolean),
     },
   ]
 

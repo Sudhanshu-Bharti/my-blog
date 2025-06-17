@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react"
 type ProjectCardProps = {
   title: string
   description: string
-  techStack: string
+  role: string
   period?: string
   achievements: string[]
   technologies: string[]
@@ -14,48 +14,59 @@ type ProjectCardProps = {
 export function ProjectCard({
   title,
   description,
-  techStack,
+  role,
   period,
   achievements,
   technologies,
   href,
 }: ProjectCardProps) {
   return (
-    <div className="group border border-gray-800 p-6 transition-colors hover:border-accent/50">
-      <Link href={href} target="_blank">
-        <div className="flex justify-between items-start mb-4">
-          <h2 className="text-2xl font-bold text-white group-hover:text-accent transition-colors">
-            {title}
-          </h2>
-          <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-accent transition-colors" />
-        </div>
-      </Link>
+    <div className="group relative bg-zinc-900/60 backdrop-blur-sm border border-zinc-700/50 rounded-lg p-6 transition-all duration-300 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5">
+      {/* Subtle gradient background effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-zinc-800/30 to-transparent rounded-lg opacity-30 group-hover:opacity-60 transition-opacity duration-300" />
 
-      <p className="text-sm text-gray-400 mb-4">
-        {techStack} {period && `(${period})`}
-      </p>
+      <div className="relative z-10">
+        <Link href={href} target="_blank" className="group/link">
+          <div className="flex justify-between items-start mb-4">
+            <h2 className="text-2xl font-bold text-zinc-100 group-hover/link:text-accent transition-colors duration-200">
+              {title}
+            </h2>
+            <ArrowUpRight className="w-5 h-5 text-zinc-400 group-hover/link:text-accent transition-colors duration-200" />
+          </div>
+        </Link>
 
-      <p className="text-gray-300 mb-6">{description}</p>
+        <p className="text-sm text-zinc-400 mb-4">
+          {role} {period && `(${period})`}
+        </p>
 
-      <div className="space-y-6">
+        <p className="text-zinc-300 mb-6">{description}</p>
+      </div>
+
+      <div className="space-y-6 relative z-10">
         <div>
-          <h3 className="text-white font-semibold mb-2">achievements</h3>
-          <ul className="list-disc list-inside space-y-1 text-gray-400">
+          <h3 className="text-zinc-100 font-semibold mb-2 text-sm uppercase tracking-wide">
+            Description
+          </h3>
+          <ul className="list-disc list-inside space-y-1 text-zinc-400">
             {achievements.map((achievement, index) => (
-              <li key={index}>{achievement}</li>
+              <li key={index} className="text-sm">
+                {achievement}
+              </li>
             ))}
           </ul>
         </div>
 
         <div>
-          <h3 className="text-white font-semibold mb-2">technologies</h3>
+          <h3 className="text-zinc-100 font-semibold mb-2 text-sm uppercase tracking-wide">
+            Technologies
+          </h3>
           <div className="flex flex-wrap gap-2">
             {technologies.map((tech) => (
               <span
                 key={tech}
-                className="px-2 py-1 text-sm text-gray-300 bg-gray-800/50 rounded"
+                className="px-2 py-1 text-xs text-zinc-300 bg-zinc-800/80 border border-zinc-700/50 rounded-md transition-colors duration-200 hover:border-accent/30 hover:bg-zinc-800"
               >
-                {tech.toLowerCase()}
+                {tech ? tech.toLowerCase() : ""}
               </span>
             ))}
           </div>
