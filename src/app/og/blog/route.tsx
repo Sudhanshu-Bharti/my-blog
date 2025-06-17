@@ -38,7 +38,7 @@ export async function GET(request: Request) {
         }}
       >
         <img
-          src="https://www.alchemist.vercel.app/alchemist.jpg"
+          src="https://sudhanshubharti.netlify.app/alchemist.jpg"
           style={{
             position: "absolute",
             bottom: "40px",

@@ -23,10 +23,10 @@ export async function generateMetadata({ params }: PageProps) {
       description: post.metadata.description,
       publishedTime,
       type: "article",
-      url: `https://www.alchemist.vercel.app/blog/${post.slug}`,
+      url: `https://sudhanshubharti.netlify.app/blog/${post.slug}`,
       images: [
         {
-          url: `https://www.alchemist.vercel.app/og/blog?title=${post.metadata.title}`,
+          url: `https://sudhanshubharti.netlify.app/og/blog?title=${post.metadata.title}`,
         },
       ],
     },
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps) {
       card: "summary_large_image",
       creator: "@sudhanshu-bharti",
       images: [
-        `https://www.alchemist.vercel.app/og/blog?title=${post.metadata.title}&top=${publishedTime}`,
+        `https://sudhanshubharti.netlify.app/og/blog?title=${post.metadata.title}&top=${publishedTime}`,
       ],
     },
   }
@@ -62,10 +62,10 @@ export default async function Post({ params }: PageProps) {
             datePublished: post.metadata.date,
             dateModified: post.metadata.date,
             description: post.metadata.description,
-            image: `https://alchemist.vercel.app/og/blog?title=${
+            image: `https://sudhanshubharti.netlify.app/og/blog?title=${
               post.metadata.title
             }&top=${formatDate(post.metadata.date)}`,
-            url: `https://alchemist.vercel.app/blog/${post.slug}`,
+            url: `https://sudhanshubharti.netlify.app/blog/${post.slug}`,
             author: {
               "@type": "Person",
               name: "Shoubhit Dash",

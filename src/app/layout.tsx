@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.alchemist.vercel.app"),
+  metadataBase: new URL("https://sudhanshubharti.netlify.app"),
   title: {
     default: "Sudhanshu Bharti",
     template: "%s | Sudhanshu Bharti",

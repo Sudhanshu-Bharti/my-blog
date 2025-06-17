@@ -1,3 +1,3 @@
-<samp>
-stack: next.js, tailwindcss, typescript, mdx, vercel, upstash redis
-</samp>
+# Personal Portfolio
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-Visit%20it%20Link!-blue)](https://sudhanshubharti.netlify.app)

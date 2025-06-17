@@ -79,7 +79,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: "https://www.alchemist.vercel.app/og/home?title=blog",
+        url: "https://sudhanshubharti.netlify.app/og/home?title=blog",
       },
     ],
   },
