@@ -231,15 +231,13 @@ export function GitHubActivity({ username = "sudhanshu-bharti" }) {
         }
       `}</style>
       <div className="p-6">
-
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-1">
           <span className="text-sm text-gray-400">
             {data.totalContributions} contributions in the last year
           </span>
-        </div>
-
+        </div>{" "}
         <div className="overflow-x-auto scrollbar-hide">
-          <div className="min-w-[700px]">
+          <div className="w-full md:min-w-[700px]">
             <div className="flex mb-2">
               {data.months.map((month, index) => (
                 <div
@@ -312,8 +310,6 @@ export function GitHubActivity({ username = "sudhanshu-bharti" }) {
             </div>
           </div>
         </div>
-
-        
       </div>
     </div>
   )

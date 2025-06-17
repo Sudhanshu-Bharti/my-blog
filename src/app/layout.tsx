@@ -2,7 +2,10 @@ import type { Metadata } from "next"
 import { Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { Navbar } from "../components/navbar"
-import { CommandPalette } from "@/components/command-palette"
+import {
+  CommandPalette,
+  CommandPaletteProvider,
+} from "@/components/command-palette"
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -47,15 +50,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {" "}
       <body
         className={`${geistMono.variable} antialiased min-h-screen font-mono custom-scrollbar`}
       >
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <Navbar />
-          {children}
-        </div>
-        <CommandPalette />
+        <CommandPaletteProvider>
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+            <Navbar />
+            {children}
+          </div>
+          <CommandPalette />
+        </CommandPaletteProvider>
       </body>
     </html>
   )

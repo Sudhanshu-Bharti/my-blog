@@ -1,21 +1,43 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  createContext,
+  useContext,
+} from "react"
 import { useRouter } from "next/navigation"
-import { Command } from "lucide-react"
+import { Command, X } from "lucide-react"
 
-type CommandItem = {
-  id: string
-  name: string
-  description?: string
-  icon?: React.ReactNode
-  onSelect: () => void
-  keywords?: string[]
-  category: string
+// Create a context for the command palette
+type CommandPaletteContextType = {
+  isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  isMobileDevice: boolean
 }
 
-export function useCommandPalette() {
+const CommandPaletteContext = createContext<
+  CommandPaletteContextType | undefined
+>(undefined)
+
+// Provider component
+export function CommandPaletteProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [isOpen, setIsOpen] = useState(false)
+  const [isMobileDevice, setIsMobileDevice] = useState(false)
+
+  // Check if device is touch-enabled on mount
+  useEffect(() => {
+    setIsMobileDevice(
+      "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        (navigator as any).msMaxTouchPoints > 0
+    )
+  }, [])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -31,14 +53,42 @@ export function useCommandPalette() {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [])
 
-  return {
+  const value = {
     isOpen,
     setIsOpen,
+    isMobileDevice,
   }
+
+  return (
+    <CommandPaletteContext.Provider value={value}>
+      {children}
+    </CommandPaletteContext.Provider>
+  )
+}
+
+// Hook to use the command palette context
+export function useCommandPalette() {
+  const context = useContext(CommandPaletteContext)
+  if (context === undefined) {
+    throw new Error(
+      "useCommandPalette must be used within a CommandPaletteProvider"
+    )
+  }
+  return context
+}
+
+type CommandItem = {
+  id: string
+  name: string
+  description?: string
+  icon?: React.ReactNode
+  onSelect: () => void
+  keywords?: string[]
+  category: string
 }
 
 export function CommandPalette() {
-  const { isOpen, setIsOpen } = useCommandPalette()
+  const { isOpen, setIsOpen, isMobileDevice } = useCommandPalette()
   const [query, setQuery] = useState("")
   const [selectedIndex, setSelectedIndex] = useState(0)
   const router = useRouter()
@@ -226,39 +276,78 @@ export function CommandPalette() {
     }
   }
 
+  // Touch event handlers for mobile devices
+  const handleTouchStart = (index: number) => {
+    setSelectedIndex(index)
+  }
+
+  const handleTouchEnd = (item: CommandItem) => {
+    item.onSelect()
+  }
+
   if (!isOpen) return null
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-zinc-900/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 overflow-hidden bg-zinc-900/50 backdrop-blur-sm flex items-start justify-center"
       onClick={() => setIsOpen(false)}
     >
       <div
-        className="relative max-w-xl mx-auto mt-20"
+        className={`relative w-full ${
+          isMobileDevice ? "max-w-full h-full" : "max-w-md mt-16 sm:mt-20"
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl shadow-2xl overflow-hidden">
+        <div
+          className={`bg-zinc-900 border border-zinc-700/50 shadow-2xl overflow-hidden ${
+            isMobileDevice ? "h-full rounded-none" : "rounded-xl"
+          }`}
+        >
           {/* Search input */}
-          <div className="p-4 border-b border-zinc-800">
-            <div className="flex items-center gap-3 px-3 py-2 bg-zinc-800/50 rounded-lg focus-within:ring-1 focus-within:ring-accent/30 transition-all duration-200">
-              <Command className="w-5 h-5 text-zinc-400" />
+          <div className="relative p-3 sm:p-4 border-b border-zinc-800">
+            <div className="flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 bg-zinc-800/50 rounded-lg focus-within:ring-1 focus-within:ring-accent/30 transition-all duration-200">
+              <Command className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-400" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="flex-1 bg-transparent outline-none text-zinc-200 placeholder-zinc-500"
+                className="flex-1 bg-transparent outline-none text-zinc-200 placeholder-zinc-500 text-sm sm:text-base"
                 placeholder="Search commands..."
                 autoComplete="off"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck="false"
               />
-              <kbd className="hidden sm:flex px-2 py-0.5 text-xs bg-zinc-800 border border-zinc-700 rounded text-zinc-400">
-                ESC
-              </kbd>
+              {isMobileDevice ? (
+                <button
+                  className="p-1.5 text-zinc-400 hover:text-zinc-200 focus:outline-none"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsOpen(false)
+                  }}
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              ) : (
+                <kbd className="hidden sm:flex px-2 py-0.5 text-xs bg-zinc-800 border border-zinc-700 rounded text-zinc-400">
+                  ESC
+                </kbd>
+              )}
             </div>
           </div>{" "}
           {/* Results */}
-          <div className="max-h-[70vh] overflow-y-auto py-2 custom-scrollbar">
+          <div
+            className={`
+            ${
+              isMobileDevice
+                ? "h-[calc(100vh-9rem)]"
+                : "max-h-[60vh] sm:max-h-[70vh]"
+            } 
+            overflow-y-auto py-2 custom-scrollbar
+          `}
+          >
             {Object.entries(groupedCommands).length > 0 ? (
               Object.entries(groupedCommands).map(([category, items]) => (
                 <div key={category} className="px-2 mb-2">
@@ -275,32 +364,40 @@ export function CommandPalette() {
                           ref={isSelected ? selectedItemRef : null}
                           onClick={() => item.onSelect()}
                           className={`
-                            flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer
+                            flex items-center gap-2 sm:gap-3 
+                            ${
+                              isMobileDevice
+                                ? "px-3 py-3.5"
+                                : "px-2 sm:px-3 py-2 sm:py-2.5"
+                            } 
+                            rounded-lg cursor-pointer
                             ${
                               isSelected
                                 ? "bg-accent/10 text-accent"
-                                : "text-zinc-300 hover:bg-zinc-800/50"
+                                : "text-zinc-300 hover:bg-zinc-800/50 active:bg-zinc-800"
                             }
                             transition-colors duration-100
+                            ${isMobileDevice ? "touch-manipulation" : ""}
                           `}
                         >
                           {/* Left icon */}
                           <div
-                            className={`w-6 h-6 flex items-center justify-center rounded-md border ${
+                            className={`w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-md border ${
                               isSelected
                                 ? "border-accent/20 bg-accent/5 text-accent"
                                 : "border-zinc-700 bg-zinc-800 text-zinc-400"
                             }`}
                           >
-                            {item.icon || <Command className="w-3.5 h-3.5" />}
+                            {item.icon || <Command className="w-3.5 h-3.5" />}{" "}
                           </div>
-
                           {/* Command content */}
-                          <div className="flex-1">
-                            <div className="font-medium">{item.name}</div>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium truncate">
+                              {item.name}
+                            </div>
                             {item.description && (
                               <div
-                                className={`text-xs ${
+                                className={`text-xs truncate ${
                                   isSelected
                                     ? "text-accent/70"
                                     : "text-zinc-500"
@@ -321,34 +418,45 @@ export function CommandPalette() {
                 <p>No results found</p>
                 <p className="text-sm mt-1">Try searching for something else</p>
               </div>
-            )}
-          </div>
+            )}{" "}
+          </div>{" "}
           {/* Footer */}
-          <div className="p-3 border-t border-zinc-800 bg-zinc-900/80 text-center text-xs text-zinc-500">
-            <div className="flex items-center justify-center space-x-4">
-              <div className="flex items-center">
-                <kbd className="px-1.5 py-0.5 text-xs bg-zinc-800 border border-zinc-700 rounded text-zinc-300 mr-1">
-                  ↑
-                </kbd>
-                <kbd className="px-1.5 py-0.5 text-xs bg-zinc-800 border border-zinc-700 rounded text-zinc-300 mr-1">
-                  ↓
-                </kbd>
-                <span>to navigate</span>
-              </div>
-              <div className="flex items-center">
-                <kbd className="px-1.5 py-0.5 text-xs bg-zinc-800 border border-zinc-700 rounded text-zinc-300 mr-1">
-                  enter
-                </kbd>
-                <span>to select</span>
-              </div>
-              <div className="flex items-center">
-                <kbd className="px-1.5 py-0.5 text-xs bg-zinc-800 border border-zinc-700 rounded text-zinc-300 mr-1">
-                  esc
-                </kbd>
-                <span>to close</span>
+          {!isMobileDevice ? (
+            <div className="p-3 border-t border-zinc-800 bg-zinc-900/80 text-center text-xs text-zinc-500">
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+                <div className="flex items-center">
+                  <kbd className="px-1.5 py-0.5 text-xs bg-zinc-800 border border-zinc-700 rounded text-zinc-300 mr-1">
+                    ↑
+                  </kbd>
+                  <kbd className="px-1.5 py-0.5 text-xs bg-zinc-800 border border-zinc-700 rounded text-zinc-300 mr-1">
+                    ↓
+                  </kbd>
+                  <span>to navigate</span>
+                </div>
+                <div className="flex items-center">
+                  <kbd className="px-1.5 py-0.5 text-xs bg-zinc-800 border border-zinc-700 rounded text-zinc-300 mr-1">
+                    enter
+                  </kbd>
+                  <span>to select</span>
+                </div>
+                <div className="flex items-center">
+                  <kbd className="px-1.5 py-0.5 text-xs bg-zinc-800 border border-zinc-700 rounded text-zinc-300 mr-1">
+                    esc
+                  </kbd>
+                  <span>to close</span>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="sticky bottom-0 p-4 border-t border-zinc-800 bg-zinc-900/95 backdrop-blur-sm text-center">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="w-full py-3 bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-600 text-zinc-200 rounded-lg transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

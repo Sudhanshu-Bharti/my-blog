@@ -40,11 +40,12 @@ export function Navbar() {
     window.addEventListener("keydown", handleKeyPress)
     return () => window.removeEventListener("keydown", handleKeyPress)
   }, [router])
+
   return (
-    <nav className="flex items-center justify-between mb-12 text-md">
+    <nav className="flex items-center justify-between mb-8 sm:mb-12 text-sm sm:text-md">
       <CommandPaletteButton />
 
-      <div className="flex space-x-4">
+      <div className="flex gap-3 sm:gap-4">
         {listofLinks.map((link) => (
           <Link
             key={link.keylabel}
@@ -52,8 +53,12 @@ export function Navbar() {
             className="hover:text-accent transition-colors duration-200"
           >
             <span>
-              <span className="text-neutral-400 ">{link.keylabel}</span>{" "}
-              {link.label}
+              <span className="text-neutral-400 hidden xs:inline-block">
+                {link.keylabel}
+              </span>
+              <span className={link.keylabel ? "xs:ml-1" : ""}>
+                {link.label}
+              </span>
             </span>
           </Link>
         ))}
