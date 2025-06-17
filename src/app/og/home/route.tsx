@@ -22,7 +22,7 @@ async function loadGoogleFont(font: string, text: string) {
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const title = searchParams.get("title")
-  const text = title ? `nexxel • ${title}` : "nexxel • home"
+  const text = title ? `sudhanshu • ${title}` : "sudhanshu • home"
 
   return new ImageResponse(
     (
@@ -41,7 +41,7 @@ export async function GET(request: Request) {
         }}
       >
         <img
-          src="https://www.nexxel.dev/nexxel.jpg"
+          src="https://www.alchemist.vercel.app/alchemist.jpg"
           style={{
             position: "absolute",
             bottom: "40px",

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.nexxel.dev"),
+  metadataBase: new URL("https://www.alchemist.vercel.app"),
   title: {
     default: "Sudhanshu Bharti",
     template: "%s | Sudhanshu Bharti",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "Sudhanshu Bharti",
     card: "summary_large_image",
-    creator: "@nexxeln",
+    creator: "@sudhanshu-bharti",
   },
 }
 

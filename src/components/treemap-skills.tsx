@@ -214,9 +214,7 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
   return (
     <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-1.5 sm:gap-2 auto-rows-fr min-h-[350px] sm:min-h-[400px]">
       {sortedData.map((item, index) => {
-        // Adjust size calculation for mobile - smaller sizes on mobile
         const baseSize = Math.max(1, Math.min(3, Math.ceil(item.size / 140)))
-        // We'll use responsive classes instead of JS detection to handle the sizing
         const size = baseSize
 
         const performance = getPerformanceIndicator(item.size)
@@ -312,7 +310,6 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
                 >
                   {item.name}
                 </div>{" "}
-                {/* Only show category on medium size tiles and up */}
                 {size >= 2 && (
                   <div className="text-[8px] sm:text-[10px] text-gray-400 font-mono mt-0.5 sm:mt-1 opacity-70">
                     {item.allCategories && item.allCategories.length > 1
@@ -338,13 +335,11 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
                     isHighlighted ? "text-accent" : ""
                   }`}
                 >
-                  {item.allCategories && item.allCategories.length > 1
-                    ? `${item.allCategories.length}`
-                    : `${(item.size / 10).toFixed(1)}%`}
+                  {item.allCategories &&
+                    `${(item.size / 10).toFixed(1)}%`}
                 </span>
               </div>
             )}
-            {/* Enhanced glow effect */}
             <div
               className={`absolute inset-0 rounded bg-gradient-to-t from-white/0 via-white/5 to-white/0 transition-opacity duration-300 pointer-events-none ${
                 isHighlighted

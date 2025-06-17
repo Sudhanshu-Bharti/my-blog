@@ -4,28 +4,17 @@ export default function NotFound() {
   return (
     <div className="flex items-center justify-center">
       <div className="space-y-6 text-center">
-        <pre className="font-mono text-accent whitespace-pre">
-          {`
-       _             _            _           
-   _  /\\ \\         / /\\       _  /\\ \\         
-  /\\_\\\\ \\ \\       / /  \\     /\\_\\\\ \\ \\        
- / / / \\ \\ \\     / / /\\ \\   / / / \\ \\ \\       
-/ / /   \\ \\ \\   / / /\\ \\ \\ / / /   \\ \\ \\      
-\\ \\ \\____\\ \\ \\ /_/ /  \\ \\ \\\\ \\ \\____\\ \\ \\     
- \\ \\________\\ \\\\ \\ \\   \\ \\ \\\\ \\________\\ \\    
-  \\/________/\\ \\\\ \\ \\   \\ \\ \\/________/\\ \\   
-            \\ \\ \\\\ \\ \\___\\ \\ \\         \\ \\ \\  
-             \\ \\_\\\\ \\/____\\ \\ \\         \\ \\_\\ 
-              \\/_/ \\_________\\/          \\/_/ 
-                                              
-          `}
-        </pre>
+        <h1>
+          <span className="text-6xl font-bold text-accent">404</span>
+          <br />
+          Page Not Found
+        </h1>
         <p className="text-gray-400">
-          looks like you've wandered into uncharted territory
+          a typo? wrong link? or maybe the page was removed?
         </p>
         <Link
           href="/"
-          className="inline-block text-gray-400 hover:text-accent transition-colors"
+          className="inline-block text-gray-400 underline-offset-2 underline hover:text-accent transition-colors"
         >
           return home
         </Link>
