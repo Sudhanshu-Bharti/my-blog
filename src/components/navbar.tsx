@@ -2,6 +2,7 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
+import { CommandPaletteButton } from "./command-palette-button"
 
 const listofLinks = [
   { href: "/", keylabel: "[h]", label: "home" },
@@ -39,9 +40,10 @@ export function Navbar() {
     window.addEventListener("keydown", handleKeyPress)
     return () => window.removeEventListener("keydown", handleKeyPress)
   }, [router])
-
   return (
-    <nav className="flex items-center justify-end  mb-12 text-md">
+    <nav className="flex items-center justify-between mb-12 text-md">
+      <CommandPaletteButton />
+
       <div className="flex space-x-4">
         {listofLinks.map((link) => (
           <Link

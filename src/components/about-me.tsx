@@ -81,7 +81,7 @@ export function AboutMe() {
 
   const username = "sudhanshu-bharti"
   return (
-    <section className="mb-16 animate-fade-in-up space-y-8">
+    <section className="mb-16 animate-fade-in-up space-y-8 about-me">
       <TreemapCSSVariables />
       <div className="space-y-6">
         <h2 className="text-2xl font-bold mb-4 flex items-center text-white">

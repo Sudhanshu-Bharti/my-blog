@@ -16,7 +16,7 @@ const posts = getPosts()
 
 export function BlogSection() {
   return (
-    <section className="mb-16 animate-fade-in-up">
+    <section className="mb-16 animate-fade-in-up blog-section">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold flex items-center text-zinc-100">
           <span className="text-accent mr-2">{"~"}</span>

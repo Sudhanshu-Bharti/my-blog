@@ -12,7 +12,7 @@ const links = [
 
 export function LinksSection() {
   return (
-    <section className="animate-fade-in-up">
+    <section className="animate-fade-in-up links-section">
       <h2 className="text-2xl font-bold mb-6 flex items-center text-white">
         <span className="text-accent mr-2">{"~"}</span> socials:
       </h2>
