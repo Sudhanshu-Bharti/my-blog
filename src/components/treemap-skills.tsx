@@ -129,11 +129,12 @@ export function TreemapSkills({ categories }: { categories: SkillCategory[] }) {
       allCategories: info.categories,
     })
   })
+
   return (
-    <div className="w-full">
-      <div className="bg-zinc-800/50 border border-zinc-700/50 rounded-lg p-6 shadow-lg backdrop-blur-sm">
+    <div className="w-full overflow-hidden">
+      <div className="bg-zinc-800/50 border border-zinc-700/50 rounded-lg p-3 sm:p-4 md:p-6 shadow-lg backdrop-blur-sm">
         {/* Portfolio header */}
-        <div className="flex items-center justify-between mb-4 pb-3 border-b border-zinc-700/50">
+        <div className="flex items-center justify-between mb-3 sm:mb-4 pb-2 sm:pb-3 border-b border-zinc-700/50">
           <div className="text-gray-400 font-mono text-xs">
             {skillsData.length} Technologies
           </div>
@@ -148,6 +149,30 @@ export function TreemapSkills({ categories }: { categories: SkillCategory[] }) {
 function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Add useEffect to check for mobile screens and handle resizing
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+
+    // Initial check
+    checkMobile()
+
+    // Debounced resize handler
+    let resizeTimer: NodeJS.Timeout
+    const handleResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(checkMobile, 200)
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+      clearTimeout(resizeTimer)
+    }
+  }, [])
 
   const sortedData = [...data].sort((a, b) => b.size - a.size)
   const categoryColors: Record<string, string> = {
@@ -186,11 +211,14 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
     if (!selectedCategory) return false
     return !isItemHighlighted(item)
   }
-
   return (
-    <div className="grid grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 auto-rows-fr min-h-[400px]">
+    <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-1.5 sm:gap-2 auto-rows-fr min-h-[350px] sm:min-h-[400px]">
       {sortedData.map((item, index) => {
-        const size = Math.max(1, Math.min(3, Math.ceil(item.size / 140)))
+        // Adjust size calculation for mobile - smaller sizes on mobile
+        const baseSize = Math.max(1, Math.min(3, Math.ceil(item.size / 140)))
+        // We'll use responsive classes instead of JS detection to handle the sizing
+        const size = baseSize
+
         const performance = getPerformanceIndicator(item.size)
         const isHighlighted = isItemHighlighted(item)
         const isDimmed = isItemDimmed(item)
@@ -200,6 +228,7 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
         if (size >= 3) {
           sizeClass = "col-span-2 row-span-2"
         } else if (size >= 2) {
+          // On mobile, larger items should still fit better in the grid
           sizeClass = "col-span-2 row-span-1"
         } else {
           sizeClass = "col-span-1 row-span-1"
@@ -214,12 +243,12 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
             key={`${item.name}-${index}`}
             className={`
               ${sizeClass} 
-              relative p-3 rounded-md border 
+              relative p-2 sm:p-3 rounded-md border 
               bg-gradient-to-br ${colorClass}
               transition-all duration-200 ease-out
               flex flex-col justify-between
               group cursor-pointer
-              min-h-[80px]
+              min-h-[70px] sm:min-h-[80px]
               backdrop-blur-sm
               ${
                 isHighlighted
@@ -229,14 +258,16 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
               ${isDimmed ? "opacity-40 scale-95" : ""}
               ${isHovered ? "z-30" : ""}
               hover:shadow-lg hover:scale-[1.02] hover:z-10
+              active:scale-95 touch-manipulation
             `}
             onClick={() => handleItemClick(item)}
             onMouseEnter={() => setHoveredItem(item.name)}
             onMouseLeave={() => setHoveredItem(null)}
           >
-            <div className="flex items-start justify-between mb-2">
+            {" "}
+            <div className="flex items-start justify-between mb-1 sm:mb-2">
               <div
-                className={`flex items-center space-x-1 px-1.5 py-0.5 rounded text-[10px] font-mono ${
+                className={`flex items-center space-x-1 px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono ${
                   performance.bg
                 } ${isHighlighted ? "ring-1 ring-emerald-400/40" : ""}`}
               >
@@ -252,7 +283,7 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
                 }`}
               ></div>
             </div>
-            <div className="flex flex-col items-center justify-center flex-1 space-y-2">
+            <div className="flex flex-col items-center justify-center flex-1 space-y-1 sm:space-y-2">
               {" "}
               {item.allCategories && item.allCategories.length > 1 && (
                 <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-accent animate-pulse shadow-lg"></div>
@@ -262,7 +293,7 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
                   <img
                     src={item.iconUrl}
                     alt={item.name}
-                    className={`w-6 h-6 object-contain transition-all duration-200 ${
+                    className={`w-5 h-5 sm:w-6 sm:h-6 object-contain transition-all duration-200 ${
                       isHighlighted
                         ? "opacity-100 drop-shadow-lg"
                         : "opacity-90 group-hover:opacity-100"
@@ -275,14 +306,15 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
               )}{" "}
               <div className="text-center">
                 <div
-                  className={`font-mono text-xs font-medium leading-tight transition-colors duration-200 ${
+                  className={`font-mono text-[10px] sm:text-xs font-medium leading-tight transition-colors duration-200 ${
                     isHighlighted ? "text-accent" : "text-white"
                   }`}
                 >
                   {item.name}
-                </div>
+                </div>{" "}
+                {/* Only show category on medium size tiles and up */}
                 {size >= 2 && (
-                  <div className="text-[10px] text-gray-400 font-mono mt-1 opacity-70">
+                  <div className="text-[8px] sm:text-[10px] text-gray-400 font-mono mt-0.5 sm:mt-1 opacity-70">
                     {item.allCategories && item.allCategories.length > 1
                       ? `${item.allCategories.length} STACKS`
                       : (
@@ -295,7 +327,7 @@ function TreemapLayout({ data }: { data: TreemapSkillItem[] }) {
               </div>
             </div>{" "}
             {size >= 2 && (
-              <div className="flex items-center justify-between text-[9px] font-mono text-gray-500 mt-2 pt-2 border-t border-zinc-600/20">
+              <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-mono text-gray-500 mt-1 sm:mt-2 pt-1 sm:pt-2 border-t border-zinc-600/20">
                 <span>
                   {item.allCategories && item.allCategories.length > 1
                     ? "CAT"

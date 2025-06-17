@@ -213,26 +213,32 @@ export function CommandPalette() {
   }, [query])
 
   useEffect(() => {
-    // Handle scrolling to section after navigation
     const scrollToSection = localStorage.getItem("scrollToSection")
     if (scrollToSection) {
-      // Small delay to ensure the page has loaded fully
       const timer = setTimeout(() => {
         const element = document.querySelector(scrollToSection)
         if (element) {
           element.scrollIntoView({ behavior: "smooth", block: "start" })
         }
-        // Clear the stored section
         localStorage.removeItem("scrollToSection")
-      }, 500) // Longer delay to ensure the page is fully rendered
+      }, 500)
 
       return () => clearTimeout(timer)
     }
   }, [])
-
   useEffect(() => {
     if (isOpen && inputRef.current) {
       inputRef.current.focus()
+      document.body.style.overflow = "hidden"
+      document.documentElement.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+      document.documentElement.style.overflow = ""
+    }
+
+    return () => {
+      document.body.style.overflow = ""
+      document.documentElement.style.overflow = ""
     }
   }, [isOpen])
 
@@ -286,7 +292,6 @@ export function CommandPalette() {
   }
 
   if (!isOpen) return null
-
   return (
     <div
       className="fixed inset-0 z-50 overflow-hidden bg-zinc-900/50 backdrop-blur-sm flex items-start justify-center"
@@ -296,6 +301,7 @@ export function CommandPalette() {
         className={`relative w-full ${
           isMobileDevice ? "max-w-full h-full" : "max-w-md mt-16 sm:mt-20"
         }`}
+        style={{ maxWidth: "100vw" }}
         onClick={(e) => e.stopPropagation()}
       >
         <div

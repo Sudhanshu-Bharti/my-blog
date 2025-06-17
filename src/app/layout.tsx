@@ -49,12 +49,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       <body
-        className={`${geistMono.variable} antialiased min-h-screen font-mono custom-scrollbar`}
+        className={`${geistMono.variable} antialiased min-h-screen font-mono custom-scrollbar overflow-x-hidden`}
       >
         <CommandPaletteProvider>
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+          <div className="max-w-4xl mx-auto px-3 sm:px-6 py-4 sm:py-8 w-full box-border">
             <Navbar />
             {children}
           </div>

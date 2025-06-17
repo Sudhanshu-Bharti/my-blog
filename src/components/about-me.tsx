@@ -115,11 +115,10 @@ export function AboutMe() {
           <h3 className="text-xl font-semibold flex items-center text-white">
             <span className="text-accent mr-2">{">"}</span>
             skills & expertise
-          </h3>
-
-          <div className="space-y-4">
+          </h3>{" "}
+          <div className="space-y-3 sm:space-y-4 -mx-2 sm:mx-0">
             <TreemapSkills categories={skillCategories} />{" "}
-            <p className="flex flex-wrap gap-2 text-xs text-gray-400 mt-2">
+            <p className="flex flex-wrap gap-2 text-xs text-gray-400 mt-2 px-2 sm:px-0">
               Tech stack visualized as a treemap - took the inspiration from
               stock market ui :)
             </p>
