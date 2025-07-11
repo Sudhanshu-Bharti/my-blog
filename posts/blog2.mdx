@@ -1,0 +1,156 @@
+---
+title: "The Shift to Linux (ARCH btw)"
+description: "Was bored during vacation so I switched OS."
+date: "July 11, 2025"
+---
+
+# Why I switched OS?
+
+It was the middle of my summer intern break where I should be preparing for my placements, but here I am doing ridiculous stuff. From building things to breaking OS. It sure is hella fun. So I thought why not give it a try. Long story short, I switched to Linux because "WHY NOT?" since Linux is indeed the BEST.
+
+## Why ARCH Linux?
+
+From my previous  [blog](https://sudhanshubharti.netlify.app/blog/c_week1), it was obvious that I love ricing so the best distro which was full of this thrill was ARCH Linux considering how well the community and ARCH Wiki is. And yeah if you don't use archinstall, it is challenging to install it. But it is worth it. For beginners, I would recommend you use `archinstall`.
+
+## So what's after this installation?
+
+  I wandered over GitHub for some cool configs and the one and only inspirational subreddit (r/unixporn), after a bit of learning more about hyprland (https://youtu.be/KA1jv40q9lQ?feature=shared), do checkout this guy, [https://youtu.be/KA1jv40q9lQ?feature=shared](https://youtu.be/KA1jv40q9lQ?feature=shared), you will learn a lot if you don't know much about hyprland ecosystem or even just want to get a gist of it.
+
+  After all beautification or what you can call CSS of Linux, comes the most deadly thing. YOUR GPU SETTINGS. You are lucky if the usual library installation stuff fixes the issue, but usually it doesn't, especially with the AMD GPUs.
+  This shit took me almost a day to configure my GPU, till this point I was able to get my GPU working still not properly. I will fix it soon.
+
+## How I almost broke my Fancontrol
+
+So here I am with my HP Victus 15 (fb0xxx series), thinking I'm all set to work on Linux. But nah, I was wrong about one thing – the fan control!
+
+I was wondering the whole day, why my CPU temperature is rising to 80 degree C and can't hear my jet engine (yeah those fans sound like this), Got scared for a bit, but after googling I found out that it was a problem which could be resolved with proper configuration.
+
+### First Attempt: lm-sensors and fancontrol
+
+My first instinct was to reach for the classic `lm-sensors` toolkit. I mean, it was quite a famous package for hardware monitoring on Linux (acc to many Reddit and forums)?
+
+Here's what I tried:
+
+```bash
+# Install lm-sensors
+sudo pacman -S lm-sensors
+
+# Detect sensors
+sudo sensors-detect
+
+# Generate fancontrol config
+sudo pwmconfig
+```
+
+The detection process failed (lol), so I had to find some other solution **Complete failure.**
+
+The issue is that most modern laptops, especially gaming ones like the HP Victus, don't expose their fan controls through the standard `/sys/class/hwmon` interface that `lm-sensors` expects. The embedded controller (EC) handles fan control independently, and you need special tools to communicate with it. (yeah I googled and copy pasted this info, enough with the tech soundy stuff)
+
+After hours of tweaking config files and trying different approaches, I had to admit defeat. `lm-sensors` just wasn't going to work for me.
+
+## What I did next?
+
+That's when I discovered **NBFC** (NoteBook FanControl). Originally developed for Windows, this tool has been ported to Linux and it's specifically designed to handle the quirky fan control systems found in laptops.
+
+There are actually two versions:
+- **NBFC (Original)**: The C# version that runs on Mono
+- **NBFC-Linux**: A native C port that's more lightweight and Linux-optimized
+
+Since the official NBFC is discontinued and is not maintained anymore, I had to find an alternative. I went with NBFC-Linux.
+
+## The Installation Journey
+
+Installing NBFC-Linux was surprisingly straightforward on Arch:
+
+```bash
+# Install from AUR (because AUR has everything)
+yay -S nbfc-linux
+```
+
+just follow the docs. It's easy.
+
+## The Configuration Hunt
+
+Here's where things got interesting (and slightly frustrating). NBFC works by using configuration files that are specific to each laptop model. These configs tell NBFC exactly how to communicate with your laptop's embedded controller.
+
+The first step was to find the right config for my HP Victus 15:
+
+```bash
+# Download latest config files
+sudo nbfc update
+
+# Try automatic configuration
+sudo nbfc config --set auto
+```
+
+The auto-detection didn't work (of course it didn't), so I had to do some detective work:
+
+```bash
+# Get recommendations based on laptop model
+nbfc config --recommend
+
+# Check what model the system thinks it is
+sudo dmidecode -s system-product-name
+```
+
+## Finding the Right Configuration
+
+
+I had to try several configs that seemed similar to my model:
+
+```bash
+# Try different configurations
+sudo nbfc config --set "HP Victus 15-fb0xxx"
+sudo nbfc restart -r  # Start in read-only mode first
+
+# Check if it's working
+nbfc status
+
+# Test with a different config if needed
+sudo nbfc config --set "HP Victus 16-e0xxx"
+```
+
+The key was starting in **read-only mode** first (`-r` flag). This lets NBFC monitor the fans without actually trying to control them, so you can see if the temperature and fan speed readings make sense.
+
+
+After trying about 4-5 different configurations, I finally found one that worked! The magic happened when I found a config file that was specifically created for a similar HP Victus model.
+
+Here's how I knew it was working:
+
+```bash
+# Check status - should show actual fan speeds
+nbfc status
+
+# Test manual control
+sudo nbfc set -s 50  # Set fan to 50%
+sudo nbfc set -s 100 # Full blast
+sudo nbfc set -s 0   # Turn off (be careful!)
+```
+
+
+## and, finally it worked
+
+So, after NBFC installation went smoothly, I was able to manually and automatically change my fan control speed successfully.
+
+
+## The Community Aspect
+
+One thing I love about NBFC-Linux is the active community. There's a compatibility database where users report working configurations for different laptop models. If you find a configuration that works for your laptop, you can help others by registering it in the database.
+
+The project also welcomes configuration file contributions, so if you end up creating a custom config for your model, you can submit it to help future users with the same laptop.
+
+## Final Thoughts
+If you're struggling with fan control on your Linux laptop, especially gaming laptops, give NBFC-Linux a try. Yes, it might take some time to find the right configuration. If it doesn't work, maybe fancontrol (lm-sensors) with pwmconfig might work.
+
+## Resources
+
+- **NBFC-Linux GitHub**: [https://github.com/nbfc-linux/nbfc-linux](https://github.com/nbfc-linux/nbfc-linux)
+- **Original NBFC**: [https://github.com/hirschmann/nbfc](https://github.com/hirschmann/nbfc)
+- **Configuration Database** [How to create a NBFC config](https://github.com/hirschmann/nbfc/wiki/How-to-create-a-NBFC-config): Check the NBFC-Linux wiki for compatibility reports
+- **HP Victus Linux Community**: [r/HPVictus](https://www.reddit.com/r/HPVictus/) for model-specific tips
+
+---
+
+**P.S.:** Now that I have proper fan control, I can finally focus on the important stuff - like ricing my desktop and pretending I'm productive while actually just tweaking configs all day.
+
+Stay cool (literally)
