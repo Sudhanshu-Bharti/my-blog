@@ -1,0 +1,107 @@
+---
+title: "Understanding REST: The Gap Between Theory and Practice"
+description: "Exploring Roy Fielding's original REST concept and how modern APIs diverged from its principles"
+date: "July 22, 2025"
+---
+
+# The REST Misconception in Modern API Development
+
+Well I wanted this blog to be more educational so this will be kinda more professional sounding. Let's Begin.
+
+
+If you've built web APIs in the past decade, you've likely described them as "RESTful." However, there's a significant gap between what we commonly call REST and what Roy Fielding originally proposed in his 2000 PhD dissertation.
+
+## The Original Context: REST as HTTP Architecture
+
+In 2000, Roy Fielding introduced REST (Representational State Transfer) in his doctoral dissertation. Contrary to popular belief, **REST was not originally conceived as a framework for API design**. Instead, it was an architectural analysis of HTTP itself and the principles that make distributed hypermedia systems scalable.
+
+Fielding's work emerged from his experience designing **HTTP/1.1**. REST served as a set of architectural constraints that explained and justified design decisions made for web protocols. For instance:
+
+- HTTP methods like `MGET` and `MHEAD` were rejected because they violated REST constraints related to caching and proxy compatibility
+- Cookies were viewed unfavorably because they introduced statefulness, contradicting REST's statelessness principle
+
+REST was fundamentally **a model for understanding and extending HTTP**, not a template for building APIs.
+
+## REST's Intended Domain: Distributed Hypermedia Systems
+
+Fielding designed REST specifically for **distributed hypermedia systems** — systems requiring what he termed "anarchic scalability." The World Wide Web exemplifies this: a decentralized system operating efficiently across organizational, national, and continental boundaries without centralized control.
+
+REST's architectural constraints are particularly well-suited for systems that:
+- Feature interconnected documents linked via hypertext
+- Require scalable and cacheable interactions
+- Operate without centralized authority
+- Span multiple organizational boundaries
+
+Most contemporary APIs, however, don't share these characteristics or requirements.
+
+## REST as One of Many Architectural Styles
+
+Fielding's dissertation was not exclusively focused on REST. REST comprised just **one chapter** in a comprehensive work about selecting appropriate software architectures for specific requirements.
+
+The dissertation covered multiple architectural styles:
+- **Pipe-and-Filter (PF)**
+- **Client-Server (CS)**
+- **Layered-Client-Server (LCS)**
+- Complex combinations like LC$SS or ULCODC$SS
+
+Fielding's central thesis emphasized **deriving architecture from application requirements** rather than following trends. He specifically cautioned against "design-by-buzzword" — ironically, precisely what occurred with REST's widespread adoption.
+
+## The Emergence of "RESTful" APIs
+
+The association between REST and API design emerged in the mid-2000s during a period of developer dissatisfaction with SOAP's complexity and XML verbosity. Developers sought simpler alternatives and recognized HTTP's ubiquity and familiarity.
+
+Rather than describing their approach as "pragmatic HTTP usage," the development community adopted the term "REST." This choice provided several advantages:
+- Academic credibility through association with Fielding's research
+- Clear differentiation from SOAP-based services
+- A conceptual framework for HTTP-based API design
+
+However, the resulting implementations diverged significantly from Fielding's original architectural vision.
+
+## Deviations from REST Principles
+
+Modern "RESTful" APIs typically diverge from Fielding's original REST constraints in several key ways:
+
+### 1. Absence of HATEOAS
+
+Fielding emphasized **Hypermedia as the Engine of Application State (HATEOAS)** as a fundamental REST constraint. In true REST, clients navigate APIs by following hypermedia links within responses, similar to web browsing.
+
+Most contemporary APIs require clients to possess prior knowledge of available endpoints, which directly contradicts the self-descriptive nature of REST.
+
+### 2. CRUD Mapping Convention
+
+The common mapping of HTTP methods to CRUD operations (`POST = Create`, `GET = Read`, `PUT = Update`, `DELETE = Delete`) did not originate from Fielding's work. This convention emerged from developer practice and proved pragmatic, despite having no basis in REST theory.
+
+### 3. Inappropriate Architectural Trade-offs
+
+REST's constraints (statelessness, cacheability, uniform interface) optimize for specific use cases: large-scale, distributed, public-facing systems. These constraints may introduce unnecessary complexity for smaller, internal, or tightly-coupled applications.
+
+## Reconciling Theory and Practice
+
+The evolution of "RESTful" APIs represents a **pragmatic adaptation** rather than a fundamental misunderstanding. The development community successfully leveraged HTTP's capabilities to create effective API patterns, even though these patterns diverge from Fielding's architectural vision.
+
+
+The terminology may be technically imprecise, but the underlying approach serves many use cases effectively.
+
+
+When you're designing your next API, the question isn't whether it's "truly RESTful" according to Fielding's dissertation. The real question is whether your architectural choices serve your specific needs.
+
+If you're building an internal API for your team's mobile app, those REST constraints around statelessness and cacheability might be exactly what you need. But if you're creating a real-time collaboration tool, forcing everything through HTTP GET and POST requests might create more problems than it solves.
+
+Consider GraphQL when your frontend needs flexible data fetching and you're tired of creating dozens of endpoints for different use cases. Look into gRPC when you need high-performance communication between internal services and don't need the overhead of HTTP semantics. Sometimes a simple JSON-RPC call is exactly what your microservice needs.
+
+
+## The Real Lesson Here
+
+The story of REST's evolution reveals something fascinating about how technology terminology spreads and morphs in practice. We took Fielding's academic work about HTTP architecture and turned it into a marketing term for any API that uses HTTP verbs sensibly. 
+
+This isn't necessarily a bad thing. The patterns we call "RESTful" today work well for many applications. They're simple to understand, leverage existing HTTP infrastructure, and provide a reasonable way to structure API interactions. The fact that they're not technically REST according to Fielding's definition doesn't make them less valuable.
+
+What's ironic is that by blindly adopting "REST" as a buzzword, we've done exactly what Fielding warned against in his dissertation. He advocated for choosing architectural styles based on actual requirements, not because they're popular or have academic credentials.
+
+The next time someone asks whether your API is "truly RESTful," you can acknowledge that it probably isn't—and explain why that's perfectly fine. Your API serves its users effectively, scales appropriately for your use case, and leverages HTTP in a sensible way. Sometimes that's more important than academic purity.
+
+Understanding this distinction doesn't just help with technical decisions; it helps us think more critically about how we adopt and adapt ideas in software development. Not every academic concept needs to be implemented exactly as originally conceived, and sometimes the practical evolution of an idea is more valuable than rigid adherence to its original form.
+
+---
+
+**P.S :** If you made it this far, you probably enjoyed this deep dive as much as I did. Check out the original article that sent me down this rabbit hole: [Roy Fielding's Misappropriated REST Dissertation](https://twobithistory.org/2020/06/28/rest.html) by Two-Bit History. It's way more academic than my analysis here!
