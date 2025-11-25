@@ -58,6 +58,7 @@ const projects = [
     ],
     technologies: ["python", "typescript", "next.js", "tailwind css", "ffmpeg"],
     href: "https://github.com/sudhanshu-bharti/hanime-frontend",
+    nsfw: true,
   },
 ]
 

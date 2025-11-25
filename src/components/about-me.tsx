@@ -92,13 +92,13 @@ export function AboutMe() {
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-transparent rounded-lg blur-lg" />
             <div className="relative bg-zinc-800/50 backdrop-blur-sm rounded-lg p-6 border border-zinc-700/50">
-              <p className="text-gray-300 leading-relaxed mb-4">
+              <p className="text-zinc-300 leading-relaxed mb-4">
                 A 20-year-old CS undergrad who builds what might help, knowing
                 it may not. With expertise in web development, I like to build
                 stuff that matters. I love to try out every new tech, like
                 literally installing it right away to check how cool it is.
               </p>
-              <div className="flex items-center gap-4 text-sm text-gray-400">
+              <div className="flex items-center gap-4 text-sm text-zinc-400">
                 <div className="flex items-center gap-2">
                   <span>For any collaboration, reach out to me on</span>
                   <a
@@ -152,7 +152,7 @@ export function AboutMe() {
               <div className="relative z-10">
                 <div className="flex items-start gap-3">
                   <div className="space-y-3">
-                    <p className="text-gray-300 leading-relaxed">
+                    <p className="text-zinc-300 leading-relaxed">
                       I was kinda bored with the web so I started to learn more
                       about C++ and its capability and yeah I knew how powerful
                       it is so I decided to dive deeper into it. It's amazing

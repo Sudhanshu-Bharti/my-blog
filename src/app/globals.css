@@ -12,6 +12,26 @@ html {
 :root {
   --background: #111;
   --foreground: #d1d5db;
+
+  /* Design Tokens */
+  /* Spacing */
+  --section-spacing: 4rem;
+  /* mb-16 */
+  --section-heading-spacing: 1.5rem;
+  /* mb-6 */
+
+  /* Colors */
+  --text-primary: #ffffff;
+  --text-secondary: rgb(212 212 216);
+  /* zinc-300 */
+  --text-tertiary: rgb(161 161 170);
+  /* zinc-400 */
+  --text-muted: rgb(113 113 122);
+  /* zinc-500 */
+
+  /* Transitions */
+  --transition-base: 200ms;
+  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -95,4 +115,17 @@ body {
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(113, 113, 122, 0.5) rgba(24, 24, 27, 0.5);
+}
+
+/* Accessibility - Focus states */
+*:focus-visible {
+  outline: 2px solid hsl(var(--accent, 142 76% 36%));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid hsl(var(--accent, 142 76% 36%));
+  outline-offset: 2px;
 }
