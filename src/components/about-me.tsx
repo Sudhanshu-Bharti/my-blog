@@ -7,10 +7,9 @@ import { AnimatedBackground } from "./motion-primitives/animated-background"
 import { SpotifyPlayer } from "./spotify-player"
 import { GitHubActivity } from "./github-activity"
 import {
-  TreemapSkills,
-  TreemapCSSVariables,
+  GitCommitSkills,
   type SkillCategory,
-} from "./treemap-skills"
+} from "./git-commit-skills"
 
 export function AboutMe() {
   const skillCategories: SkillCategory[] = [
@@ -82,8 +81,6 @@ export function AboutMe() {
   const username = "sudhanshu-bharti"
   return (
     <section className="mb-16 animate-fade-in-up space-y-8 about-me">
-      <TreemapCSSVariables />
-
       <div className="space-y-6">
         <h2 className="text-2xl font-bold mb-4 flex items-center text-white">
           <span className="text-accent mr-2">{"~"}</span> about me
@@ -102,7 +99,7 @@ export function AboutMe() {
                 <div className="flex items-center gap-2">
                   <span>For any collaboration, reach out to me on</span>
                   <a
-                    href="https://discord.com/users/sudhanshu_bharti"
+                    href="https://discord.com/users/unionck"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-accent hover:underline"
@@ -116,16 +113,15 @@ export function AboutMe() {
           </div>
         </div>
         <div className="space-y-6">
-
           <h3 className="text-xl font-semibold flex items-center text-white">
             <span className="text-accent mr-2">{">"}</span>
             skills & expertise
-          </h3>{" "}
+          </h3>
           <div className="space-y-3 sm:space-y-4 -mx-2 sm:mx-0">
-            <TreemapSkills categories={skillCategories} />{" "}
-            <p className="flex flex-wrap gap-2 text-xs text-gray-400 mt-2 px-2 sm:px-0">
-              Tech stack visualized as a treemap - took the inspiration from
-              stock market ui :)
+            <GitCommitSkills categories={skillCategories} />
+            <p className="flex flex-wrap gap-2 text-xs text-zinc-400 mt-2 px-2 sm:px-0">
+              skills visualized as git commit history - because every skill is a
+              commit to growth :)
             </p>
           </div>
         </div>
@@ -198,6 +194,6 @@ export function AboutMe() {
           </div>{" "}
         </div>
       </div>
-    </section>
+    </section >
   )
 }
