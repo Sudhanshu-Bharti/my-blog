@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { Code2, Layers, Cpu, Terminal, PenTool } from "lucide-react"
+import { Code2, Layers, Cpu, Terminal, PenTool, FileText } from "lucide-react"
 import { AnimatedBackground } from "./motion-primitives/animated-background"
 import { SpotifyPlayer } from "./spotify-player"
 import { GitHubActivity } from "./github-activity"
@@ -83,6 +83,7 @@ export function AboutMe() {
   return (
     <section className="mb-16 animate-fade-in-up space-y-8 about-me">
       <TreemapCSSVariables />
+
       <div className="space-y-6">
         <h2 className="text-2xl font-bold mb-4 flex items-center text-white">
           <span className="text-accent mr-2">{"~"}</span> about me
@@ -97,21 +98,25 @@ export function AboutMe() {
                 stuff that matters. I love to try out every new tech, like
                 literally installing it right away to check how cool it is.
               </p>
-              <div className="flex items-center gap-2 text-sm text-gray-400">
-                <span>For any collaboration, reach out to me on</span>
-                <a
-                  href="https://discord.com/users/sudhanshu_bharti"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-accent"
-                >
-                  Discord
-                </a>
+              <div className="flex items-center gap-4 text-sm text-gray-400">
+                <div className="flex items-center gap-2">
+                  <span>For any collaboration, reach out to me on</span>
+                  <a
+                    href="https://discord.com/users/sudhanshu_bharti"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:underline"
+                  >
+                    Discord
+                  </a>
+                </div>
+
               </div>
             </div>
           </div>
         </div>
         <div className="space-y-6">
+
           <h3 className="text-xl font-semibold flex items-center text-white">
             <span className="text-accent mr-2">{">"}</span>
             skills & expertise

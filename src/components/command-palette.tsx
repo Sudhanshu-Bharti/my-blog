@@ -34,8 +34,8 @@ export function CommandPaletteProvider({
   useEffect(() => {
     setIsMobileDevice(
       "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        (navigator as any).msMaxTouchPoints > 0
+      navigator.maxTouchPoints > 0 ||
+      (navigator as any).msMaxTouchPoints > 0
     )
   }, [])
 
@@ -121,6 +121,11 @@ export function CommandPalette() {
       url: "https://github.com/sudhanshu-bharti/my-blog",
     },
     { id: "contact", name: "Contact Me", url: "mailto:itsmeshubbb@gmail.com" },
+    {
+      id: "resume",
+      name: "View Resume",
+      url: "https://drive.google.com/file/d/1NzGhemYC099_I0vO0z2UaeHrgjs9rXy1/view?usp=sharing",
+    },
   ]
 
   // Combine all items into commands
@@ -185,13 +190,13 @@ export function CommandPalette() {
     query === ""
       ? commands
       : commands.filter(
-          (command) =>
-            command.name.toLowerCase().includes(query.toLowerCase()) ||
-            command.description?.toLowerCase().includes(query.toLowerCase()) ||
-            command.keywords?.some((keyword) =>
-              keyword.includes(query.toLowerCase())
-            )
-        )
+        (command) =>
+          command.name.toLowerCase().includes(query.toLowerCase()) ||
+          command.description?.toLowerCase().includes(query.toLowerCase()) ||
+          command.keywords?.some((keyword) =>
+            keyword.includes(query.toLowerCase())
+          )
+      )
 
   // Group commands by category
   const groupedCommands = filteredCommands.reduce<
@@ -298,16 +303,13 @@ export function CommandPalette() {
       onClick={() => setIsOpen(false)}
     >
       <div
-        className={`relative w-full ${
-          isMobileDevice ? "max-w-full h-full" : "max-w-md mt-16 sm:mt-20"
-        }`}
-        style={{ maxWidth: "100vw" }}
+        className={`relative w-full ${isMobileDevice ? "max-w-full h-full" : "max-w-md mt-16 sm:mt-20"
+          }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className={`bg-zinc-900 border border-zinc-700/50 shadow-2xl overflow-hidden ${
-            isMobileDevice ? "h-full rounded-none" : "rounded-xl"
-          }`}
+          className={`bg-zinc-900 border border-zinc-700/50 shadow-2xl overflow-hidden ${isMobileDevice ? "h-full rounded-none" : "rounded-xl"
+            }`}
         >
           {/* Search input */}
           <div className="relative p-3 sm:p-4 border-b border-zinc-800">
@@ -346,11 +348,10 @@ export function CommandPalette() {
           {/* Results */}
           <div
             className={`
-            ${
-              isMobileDevice
+            ${isMobileDevice
                 ? "h-[calc(100vh-9rem)]"
                 : "max-h-[60vh] sm:max-h-[70vh]"
-            } 
+              } 
             overflow-y-auto py-2 custom-scrollbar
           `}
           >
@@ -371,16 +372,14 @@ export function CommandPalette() {
                           onClick={() => item.onSelect()}
                           className={`
                             flex items-center gap-2 sm:gap-3 
-                            ${
-                              isMobileDevice
-                                ? "px-3 py-3.5"
-                                : "px-2 sm:px-3 py-2 sm:py-2.5"
+                            ${isMobileDevice
+                              ? "px-3 py-3.5"
+                              : "px-2 sm:px-3 py-2 sm:py-2.5"
                             } 
                             rounded-lg cursor-pointer
-                            ${
-                              isSelected
-                                ? "bg-accent/10 text-accent"
-                                : "text-zinc-300 hover:bg-zinc-800/50 active:bg-zinc-800"
+                            ${isSelected
+                              ? "bg-accent/10 text-accent"
+                              : "text-zinc-300 hover:bg-zinc-800/50 active:bg-zinc-800"
                             }
                             transition-colors duration-100
                             ${isMobileDevice ? "touch-manipulation" : ""}
@@ -388,11 +387,10 @@ export function CommandPalette() {
                         >
                           {/* Left icon */}
                           <div
-                            className={`w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-md border ${
-                              isSelected
+                            className={`w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-md border ${isSelected
                                 ? "border-accent/20 bg-accent/5 text-accent"
                                 : "border-zinc-700 bg-zinc-800 text-zinc-400"
-                            }`}
+                              }`}
                           >
                             {item.icon || <Command className="w-3.5 h-3.5" />}{" "}
                           </div>
@@ -403,11 +401,10 @@ export function CommandPalette() {
                             </div>
                             {item.description && (
                               <div
-                                className={`text-xs truncate ${
-                                  isSelected
+                                className={`text-xs truncate ${isSelected
                                     ? "text-accent/70"
                                     : "text-zinc-500"
-                                }`}
+                                  }`}
                               >
                                 {item.description}
                               </div>

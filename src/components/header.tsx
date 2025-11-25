@@ -1,7 +1,31 @@
+"use client"
 import { ScrambleText } from "@/components/scramble-text"
-import { MapPin, Code2 } from "lucide-react"
+import { MapPin, FileText } from "lucide-react"
+import Link from "next/link"
+import { useEffect } from "react"
 
 export function Header() {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "r" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        // Prevent if user is typing in an input (though none exist currently)
+        if (
+          document.activeElement?.tagName === "INPUT" ||
+          document.activeElement?.tagName === "TEXTAREA"
+        ) {
+          return
+        }
+        window.open(
+          "https://drive.google.com/file/d/1NzGhemYC099_I0vO0z2UaeHrgjs9rXy1/view?usp=sharing",
+          "_blank",
+        )
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
+
   return (
     <header className="mb-16 space-y-6">
       <h1 className="text-4xl font-bold mb-4 animate-fade-in text-white">
@@ -14,33 +38,18 @@ export function Header() {
           <MapPin className="w-4 h-4" />
           gandhinagar, india
         </div>
-        {/* <div className="flex items-center gap-2">
-          <Code2 className="w-4 h-4" />
-          full stack developer
-        </div> */}
+
       </div>
-      {/* <p className="leading-relaxed animate-fade-in-up text-lg text-gray-300">
-        A 20-year-old CS undergrad who builds what might help, knowing it may
-        not. I craft elegant web solutions with modern technologies and have a
-        passion for creating meaningful developer experiences.
-      </p> */}
-      {/* <div className="flex flex-wrap gap-3 mt-2">
-        <span className="px-3 py-1 text-sm bg-accent/20 text-accent rounded-full">
-          TypeScript
-        </span>
-        <span className="px-3 py-1 text-sm bg-accent/20 text-accent rounded-full">
-          React
-        </span>
-        <span className="px-3 py-1 text-sm bg-accent/20 text-accent rounded-full">
-          Next.js
-        </span>
-        <span className="px-3 py-1 text-sm bg-accent/20 text-accent rounded-full">
-          tRPC
-        </span>
-        <span className="px-3 py-1 text-sm bg-accent/20 text-accent rounded-full">
-          Tailwind CSS
-        </span>
-      </div> */}
+      <div className="flex items-center gap-2">
+        <Link
+          href="https://drive.google.com/file/d/1NzGhemYC099_I0vO0z2UaeHrgjs9rXy1/view?usp=sharing"
+          target="_blank"
+          className="flex items-center gap-2 hover:text-accent transition-colors"
+        >
+          <FileText className="w-4 h-4" />
+          resume
+        </Link>
+      </div>
     </header>
   )
 }
