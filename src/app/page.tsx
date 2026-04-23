@@ -12,8 +12,6 @@ export default function HomePage() {
       <SectionScrollHandler />
       <Header />
       <WorkExperienceSection />
-      <GitCommitSkills categories={skillCategories} />
-
       <AboutMe />
       <BlogSection />
       <LinksSection />

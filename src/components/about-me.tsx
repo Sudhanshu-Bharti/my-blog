@@ -6,6 +6,8 @@ import { AnimatedBackground } from "./motion-primitives/animated-background"
 import { SpotifyPlayer } from "./spotify-player"
 import { GitHubActivity } from "./github-activity"
 import { Micrographic } from "./micrographics"
+import { GitCommitSkills } from "./git-commit-skills"
+import { skillCategories } from "@/lib/skills"
 
 
 export function AboutMe() {
@@ -50,15 +52,16 @@ export function AboutMe() {
               <span className="text-accent mr-2">{">"}</span>
               skills & expertise
             </h3>
+
             <Micrographic
               variant="signal"
               className="left-32 top-1 hidden h-7 w-28 text-white/10 md:block"
             />
           </div>
+            <GitCommitSkills categories={skillCategories} />
           <div className="space-y-3 sm:space-y-4 -mx-2 sm:mx-0">
             <p className="flex flex-wrap gap-2 text-xs text-zinc-400 mt-2 px-2 sm:px-0">
-               skills visualized as git commit history - because every skill is a
-              commit to growth :)
+              should i flex my skills? idk but here they are.
             </p>
           </div>  
         </div>
