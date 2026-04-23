@@ -2,81 +2,13 @@
 
 import type React from "react"
 
-import { Code2, Layers, Cpu, Terminal, PenTool, FileText } from "lucide-react"
 import { AnimatedBackground } from "./motion-primitives/animated-background"
 import { SpotifyPlayer } from "./spotify-player"
 import { GitHubActivity } from "./github-activity"
-import {
-  GitCommitSkills,
-  type SkillCategory,
-} from "./git-commit-skills"
+import { Micrographic } from "./micrographics"
+
 
 export function AboutMe() {
-  const skillCategories: SkillCategory[] = [
-    {
-      name: "Frontend",
-      icon: <Layers className="w-5 h-5" />,
-      color: "from-blue-500/10 to-cyan-500/10",
-      skills: [
-        "React",
-        "Nextjs",
-        "TailwindCSS",
-        "FramerMotion",
-        "Redux",
-        "Zustand",
-        "Shadcn UI",
-      ].filter(Boolean), // Filter out any null values
-    },
-    {
-      name: "Backend",
-      icon: <Cpu className="w-5 h-5" />,
-      color: "from-green-500/10 to-emerald-500/10",
-      skills: [
-        "Nodejs",
-        "Express",
-        "TypeScript",
-        "mysql",
-        "PostgreSQL",
-        "MongoDB",
-        "Prisma",
-        "Drizzle ORM",
-        "Redis",
-      ].filter(Boolean),
-    },
-    {
-      name: "Database",
-      icon: <Terminal className="w-5 h-5" />,
-      color: "from-purple-500/10 to-violet-500/10",
-      skills: [
-        "PostgreSQL",
-        "MySQL",
-        "MongoDB",
-        "Prisma",
-        "Drizzle ORM",
-        "Redis",
-      ].filter(Boolean),
-    },
-    {
-      name: "Design",
-      icon: <PenTool className="w-5 h-5" />,
-      color: "from-pink-500/10 to-rose-500/10",
-      skills: ["Figma", "UI/UX"].filter(Boolean),
-    },
-    {
-      name: "Languages",
-      icon: <Code2 className="w-5 h-5" />,
-      color: "from-orange-500/10 to-yellow-500/10",
-      skills: [
-        "JavaScript",
-        "TypeScript",
-        "Python",
-        "C",
-        "Cplusplus",
-        "mysql",
-        "Java",
-      ].filter(Boolean),
-    },
-  ]
 
   const username = "sudhanshu-bharti"
   return (
@@ -113,17 +45,22 @@ export function AboutMe() {
           </div>
         </div>
         <div className="space-y-6">
-          <h3 className="text-xl font-semibold flex items-center text-white">
-            <span className="text-accent mr-2">{">"}</span>
-            skills & expertise
-          </h3>
+          <div className="relative">
+            <h3 className="text-xl font-semibold flex items-center text-white">
+              <span className="text-accent mr-2">{">"}</span>
+              skills & expertise
+            </h3>
+            <Micrographic
+              variant="signal"
+              className="left-32 top-1 hidden h-7 w-28 text-white/10 md:block"
+            />
+          </div>
           <div className="space-y-3 sm:space-y-4 -mx-2 sm:mx-0">
-            <GitCommitSkills categories={skillCategories} />
             <p className="flex flex-wrap gap-2 text-xs text-zinc-400 mt-2 px-2 sm:px-0">
-              skills visualized as git commit history - because every skill is a
+               skills visualized as git commit history - because every skill is a
               commit to growth :)
             </p>
-          </div>
+          </div>  
         </div>
         <div className="space-y-4">
           <h3 className="text-xl font-semibold flex items-center text-white">
@@ -145,6 +82,10 @@ export function AboutMe() {
               className="relative p-6 rounded-lg overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-accent/3 to-transparent rounded-lg" />
+              <Micrographic
+                variant="corner"
+                className="right-2 top-2 h-24 w-28 text-white/8"
+              />
               <div className="relative z-10">
                 <div className="flex items-start gap-3">
                   <div className="space-y-3">

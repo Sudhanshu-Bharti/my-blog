@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import { getPosts } from "@/lib/blog"
+import { Micrographic } from "./micrographics"
 
 const posts = getPosts()
   .sort((a, b) => {
@@ -34,6 +35,14 @@ export function BlogSection() {
       <div className="relative bg-zinc-900/40 backdrop-blur-sm rounded-lg p-4 border border-zinc-800/50">
         {/* Subtle gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent rounded-lg opacity-30"></div>
+        <Micrographic
+          variant="corner"
+          className="right-2 top-2 h-20 w-24 text-white/8"
+        />
+        <Micrographic
+          variant="signal"
+          className="bottom-3 left-3 h-8 w-36 text-accent/20"
+        />
 
         <div className="space-y-4 relative z-10">
           {posts.map((post, index) => (

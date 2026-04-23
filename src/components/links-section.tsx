@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { Micrographic } from "./micrographics"
 
 const links = [
   { title: "email", href: "mailto:sudhanshubharti.dev@gmail.com" },
@@ -20,6 +21,10 @@ export function LinksSection() {
       <div className="relative bg-zinc-900/40 backdrop-blur-sm rounded-lg p-6 border border-zinc-800/50">
         {/* Subtle gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent rounded-lg opacity-30"></div>
+        <Micrographic
+          variant="band"
+          className="right-4 top-3 h-10 w-36 text-white/8"
+        />
 
         <div className="flex flex-wrap gap-4 text-sm relative z-10">
           {links.map((link, index) => (
